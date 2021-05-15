@@ -51,6 +51,14 @@ const Editor = () => {
         element.click();
     }
 
+    const signOut = () => {
+        localStorage.clear()
+        const element = document.createElement("a");
+        element.href = window.location.origin
+        document.body.appendChild(element);
+        element.click();
+    }
+
     if (!localStorage.getItem('token'))
         return (<>
             <div className="input-group mb-3">
@@ -62,6 +70,8 @@ const Editor = () => {
     else
         return (
                 <>
+                    <div className="col"/>
+                    <button className="btn btn-primary col-auto" onClick={signOut}> Sign Out </button>
                     <EmailEditor
                         ref={emailEditorRef}
                     />
