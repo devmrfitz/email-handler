@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React, {useRef, useState} from 'react';
 import EmailEditor from 'react-email-editor';
 import JSON from "JSON";
 import axios from "axios";
@@ -6,7 +6,7 @@ import env from "../../env_var";
 
 const Editor = () => {
 
-
+    const [shop, changeShop] = useState('');
 
     const emailEditorRef = useRef(null);
     const saveTemplate = () => {
@@ -42,8 +42,23 @@ const Editor = () => {
         })
     }
 
+    const handleShopChange = (e) => changeShop(e.target.value)
+
+    const handleShopSubmit = () => {
+        const element = document.createElement("a");
+        element.href = env['BACKEND']+'login?shop='+shop+".myshopify.com"
+        document.body.appendChild(element);
+        element.click();
+    }
+
     if (!localStorage.getItem('token'))
-        return ("Please login via Shopify to access this app")
+        return (<>
+            <div className="input-group mb-3">
+                <input type="text" className="form-control input-group-append" value={shop} onChange={handleShopChange} placeholder="Shop Name"/>
+                    <span className="input-group-text" >.myshopify.com/</span>
+            </div>
+            <button className="btn btn-primary" onClick={handleShopSubmit}>Install</button>
+        </>)
     else
         return (
                 <>
