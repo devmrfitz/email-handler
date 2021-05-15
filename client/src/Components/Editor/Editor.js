@@ -61,11 +61,13 @@ const Editor = () => {
 
     if (!localStorage.getItem('token'))
         return (<>
-            <div className="input-group mb-3">
-                <input type="text" className="form-control input-group-append" value={shop} onChange={handleShopChange} placeholder="Shop Name"/>
-                    <span className="input-group-text" >.myshopify.com/</span>
-            </div>
-            <button className="btn btn-primary" onClick={handleShopSubmit}>Install</button>
+            <form onSubmit={handleShopSubmit}>
+                <div className="input-group mb-3">
+                    <input type="text" className="form-control input-group-append" value={shop} onChange={handleShopChange} placeholder="Shop Name"/>
+                        <span className="input-group-text" >.myshopify.com/</span>
+                </div>
+                <input type="submit" className="btn btn-primary" onClick={handleShopSubmit}>Install</input>
+            </form>
         </>)
     else
         return (
