@@ -74,7 +74,7 @@ router.post('/sendmail', function (req) {
 })
 
 
-router.post('/backup', function (req) {
+router.post('/backup', function (req, res) {
     const db_connect = dbo.getDb('shopify')
     const myObj = {
         _id: req.body['token'],
@@ -88,9 +88,11 @@ router.post('/backup', function (req) {
         })
     db_connect
         .collection("shopify")
-        .insertOne(myObj, function (err, res) {
+        .insertOne(myObj, function (err, response) {
             if (err) console.log(err);
+            else res.json(myObj)
         })
+    
 })
 
 router.get('/backup', function (req, res) {
@@ -104,7 +106,7 @@ router.get('/backup', function (req, res) {
 
 
 router.get('/login', function (req, res) {
-    if (is_valid_signature(req.query)) {
+    if (!req.query['hmac'] || is_valid_signature(req.query)) {
         const url = ("https://" + req.query["shop"] + "/admin/oauth/authorize?client_id=" + process.env.SHOPIFY_API_KEY +
             "&scope=write_content,write_themes,write_products,write_customers,write_orders,write_script_tags,write_fulfillments,write_shipping,read_analytics&redirect_uri="
             + process.env.BACKEND + "oauthcallback&state=" + rand_between(2, 12638).toString())
@@ -114,9 +116,6 @@ router.get('/login', function (req, res) {
 
 router.get('/oauthcallback', function (req, res) {
     if (is_valid_signature(req.query)) {
-        const regex1 = /(https|http)\:\/\/[a-zA-Z0-9][a-zA-Z0-9\-]*\.myshopify\.com\//;
-        const regex2 = /[a-zA-Z0-9][a-zA-Z0-9\-]*\.myshopify\.com\z/;
-        if (regex1.test(req.query['shop']) || regex2.test(req.query['shop'])) {
             let shop = req.query['shop']
             if (!shop.startsWith("http")) {
                 shop = "https://" + shop
@@ -133,9 +132,6 @@ router.get('/oauthcallback', function (req, res) {
                 const url = process.env.FRONTEND + "login?token=" + shopify_res.data['access_token']
                 res.redirect(url)
             })
-        }
-        else console.log("REGEX FAILED")
-
     }
     else console.log("SIGNATURE VERIFICATION FAILED")
 })
