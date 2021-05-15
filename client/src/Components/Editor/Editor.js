@@ -70,8 +70,10 @@ const Editor = () => {
     else
         return (
                 <>
-                    <div className="col"/>
-                    <button className="btn btn-primary col-auto" onClick={signOut}> Sign Out </button>
+                    <div className="row">
+                        <div className="col"/>
+                        <button className="btn btn-primary col-auto" onClick={signOut}> Sign Out </button>
+                    </div>
                     <EmailEditor
                         ref={emailEditorRef}
                     />
