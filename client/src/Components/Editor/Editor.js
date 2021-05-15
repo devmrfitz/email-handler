@@ -64,9 +64,9 @@ const Editor = () => {
             <form onSubmit={handleShopSubmit}>
                 <div className="input-group mb-3">
                     <input type="text" className="form-control input-group-append" value={shop} onChange={handleShopChange} placeholder="Shop Name"/>
-                        <span className="input-group-text" >.myshopify.com/</span>
+                    <span className="input-group-text" >.myshopify.com/</span>
                 </div>
-                <input type="submit" className="btn btn-primary" onClick={handleShopSubmit}>Install</input>
+                <input type="submit" className="btn btn-primary" onClick={handleShopSubmit} value="Install" />
             </form>
         </>)
     else
