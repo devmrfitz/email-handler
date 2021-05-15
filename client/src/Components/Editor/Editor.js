@@ -11,6 +11,7 @@ const Editor = () => {
     const emailEditorRef = useRef(null);
     const saveTemplate = () => {
         emailEditorRef.current.editor.saveDesign((design) => {
+            console.log(design)
             axios.post(env['BACKEND']+"backup", {
                 backup: JSON.stringify(design),
                 token: localStorage.getItem("token")
@@ -41,6 +42,7 @@ const Editor = () => {
             element.click();
         })
     }
+
 
     const handleShopChange = (e) => changeShop(e.target.value)
 
@@ -75,6 +77,7 @@ const Editor = () => {
                     <div className="row">
                         <div className="col"/>
                         <button className="btn btn-primary col-auto" onClick={signOut}> Sign Out </button>
+                        <div className="col-auto"/>
                     </div>
                     <EmailEditor
                         ref={emailEditorRef}
@@ -87,6 +90,8 @@ const Editor = () => {
                         <button className="btn btn-primary col-auto" onClick={saveTemplate}> Save template to cloud </button>
                         <div className="col-auto"/>
                         <button className="btn btn-primary col-auto" onClick={loadTemplate}> Load template from cloud </button>
+                        <div className="col-auto"/>
+                        <button className="btn btn-primary col-auto" onClick={window.location.reload.bind(window.location)}> Clear workspace </button>
                         <div className="col"/>
                     </div>
                     <br/>
